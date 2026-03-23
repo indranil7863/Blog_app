@@ -4,6 +4,7 @@ import Form from "./Form";
 
 const Posts = () => {
   const [data, setData] = useState([]);
+  const [editPost, setEditPost] = useState({});
 
   const getPostData = async () => {
     try {
@@ -28,13 +29,22 @@ const Posts = () => {
     }
   };
 
+  const editHandler = (post) => {
+    setEditPost(post);
+  };
+
   useEffect(() => {
     getPostData();
   }, []);
   return (
     <>
       <div className="form-section">
-        <Form data={data} setData={setData} />
+        <Form
+          data={data}
+          setData={setData}
+          editPost={editPost}
+          setEditPost={setEditPost}
+        />
       </div>
       <div className="post-section">
         <ol>
@@ -44,7 +54,7 @@ const Posts = () => {
               <li key={id}>
                 <p>Title: {title}</p>
                 <p>Body: {body}</p>
-                <button>Edit</button>
+                <button onClick={() => editHandler(post)}>Edit</button>
                 <button onClick={() => deleteHandler(id)}>Delete</button>
               </li>
             );

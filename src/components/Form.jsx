@@ -1,8 +1,18 @@
-import React, { useState } from "react";
-import { postData } from "../api/Postapi";
+import React, { useState, useEffect } from "react";
+import { editData, postData } from "../api/Postapi";
 
-const Form = ({ data, setData }) => {
+const Form = ({ data, setData, editPost, setEditPost }) => {
   const [newPost, setNewPost] = useState({ title: "", body: "" });
+
+  useEffect(() => {
+    if (Object.keys(editPost).length !== 0) {
+      setNewPost(editPost);
+    }
+  }, [editPost]);
+
+  console.log(Object.keys(editPost).length);
+  console.log(newPost);
+  console.log(editPost);
   const inputHandler = (e) => {
     setNewPost((prev) => {
       return {
@@ -12,14 +22,30 @@ const Form = ({ data, setData }) => {
     });
   };
 
+  let isEmpty = Object.keys(editPost).length === 0;
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    const fromData = new FormData(e.target);
+    const action = e.nativeEvent.submitter.value;
+    console.log("action : ", action);
     try {
-      const res = await postData(newPost);
-      if (res.status === 201) {
-        setData((prev) => {
-          return [...prev, res.data];
-        });
+      if (action === "create") {
+        const res = await postData(newPost);
+        if (res.status === 201) {
+          setData((prev) => {
+            return [...prev, res.data];
+          });
+        }
+      } else if (action === "edit") {
+        const res = await editData(newPost);
+        if (res.status === 200) {
+          const editedData = data.map((ele) => {
+            return ele.id === newPost.id ? newPost : ele;
+          });
+          setData(editedData);
+        }
+        setEditPost({});
       }
     } catch (error) {
       console.log("Error: ", error);
@@ -50,7 +76,9 @@ const Form = ({ data, setData }) => {
           placeholder="write posts body.."
         />
       </div>
-      <button>Create</button>
+      <button type="submit" name="action" value={isEmpty ? "create" : "edit"}>
+        {isEmpty ? "create" : "edit"}
+      </button>
     </form>
   );
 };
