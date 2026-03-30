@@ -53,10 +53,14 @@ const Form = ({ data, setData, editPost, setEditPost }) => {
     setNewPost({ title: "", body: "" });
   };
   return (
-    <form onSubmit={submitHandler}>
-      <div>
+    <form
+      onSubmit={submitHandler}
+      className="flex justify-center flex-col gap-2 bg-gray-400 p-2 rounded-[5px]  w-[80%] mx-auto  sm:w-[40%] "
+    >
+      <div className="bg-gray-300 rounded-[5px] p-2">
         <label htmlFor="title"></label>
         <input
+          className="outline-none w-full scroll-auto"
           type="text"
           id="title"
           name="title"
@@ -65,9 +69,10 @@ const Form = ({ data, setData, editPost, setEditPost }) => {
           placeholder="write posts title.."
         />
       </div>
-      <div>
+      <div className="bg-gray-300 rounded-[5px] p-2">
         <label htmlFor="body"></label>
         <input
+          className="outline-none w-full scroll-auto"
           type="text"
           id="body"
           name="body"
@@ -76,7 +81,12 @@ const Form = ({ data, setData, editPost, setEditPost }) => {
           placeholder="write posts body.."
         />
       </div>
-      <button type="submit" name="action" value={isEmpty ? "create" : "edit"}>
+      <button
+        className="w-full bg-green-500 text-white text-xl rounded-[5px] py-1 hover:bg-green-300 hover:text-black"
+        type="submit"
+        name="action"
+        value={isEmpty ? "create" : "edit"}
+      >
         {isEmpty ? "create" : "edit"}
       </button>
     </form>

@@ -38,7 +38,7 @@ const Posts = () => {
   }, []);
   return (
     <>
-      <div className="form-section">
+      <div className=" w-full bg-white sticky top-[65px]">
         <Form
           data={data}
           setData={setData}
@@ -47,15 +47,32 @@ const Posts = () => {
         />
       </div>
       <div className="post-section">
-        <ol>
+        <ol className="flex flex-col justify-center gap-2 max-w-[80%] mx-auto border-x-2 p-2 bg-gray-100 rounded-[5px] ">
           {data.map((post) => {
             const { id, body, title } = post;
             return (
-              <li key={id}>
-                <p>Title: {title}</p>
-                <p>Body: {body}</p>
-                <button onClick={() => editHandler(post)}>Edit</button>
-                <button onClick={() => deleteHandler(id)}>Delete</button>
+              <li
+                key={id}
+                className="border-2 border-gray-200 px-1 py-2 rounded-[5px]"
+              >
+                <p className="text-xl py-2 bg-white rounded-[5px] pl-1">
+                  <span className="font-bold pr-2">Title:</span> {title}
+                </p>
+                <p className="text-[18px] py-2"> {body}</p>
+                <div className="flex gap-2">
+                  <button
+                    className="bg-blue-400 hover:bg-blue-300 px-6 py-1 rounded-[5px]"
+                    onClick={() => editHandler(post)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="bg-red-400 hover:bg-red-300 px-6 py-1 rounded-[5px]"
+                    onClick={() => deleteHandler(id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </li>
             );
           })}
